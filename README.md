@@ -1,3 +1,17 @@
+# DynamicResume
+
+Sometimes it is difficult to customize resumes for specific jobs. You can have AI do it all for you a little at a time, but what if you want to pick and choose from skills and projects for a particular job? DynamicResume is resume builder that allows you to maintain a master list of skills and projects and pick and choose which ones are relevant to include for different jobs, without having to add and delete skills from scratch each time. When you end up outgrowing your current format, you can easily choose from other existing templates, drag and drop sections, or create your own without copy and pasting a bunch.
+
+Planned features:
+- Formatted resume
+- Markdown or WYSIWYG editor
+- Drag and drop sections
+- Resume templates
+- LLM suggestions for what to include / exclude
+- Version tracker for resumes you submitted to different jobs
+- PDF downloader
+- MS document downloader?
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
