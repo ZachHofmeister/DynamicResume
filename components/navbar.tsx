@@ -4,6 +4,7 @@ export default function Navbar() {
 	const links = [
 		{ id: 0, href: "/", name: "Home" },
 		{ id: 1, href: "/Resume", name: "resume.tsx" },
+		{ id: 2, href: "/Builder", name: "builder.tsx" },
 	]
 
 	return (
