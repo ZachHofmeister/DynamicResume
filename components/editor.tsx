@@ -4,11 +4,19 @@ import { Config, Data, Puck, Render, Slot } from "@puckeditor/core";
 
 //Define components and field types for typescript
 type Components = {
+	Section: {
+		title: string;
+		content: Slot;
+	};
 	HeadingBlock: {
 		title: string;
 	};
 	Slot: {
 		content: Slot;
+	};
+	TwoColumn: {
+		left: Slot;
+		right: Slot;
 	};
 };
 
@@ -19,6 +27,25 @@ type RootProps = {
 
 const config: Config<Components, RootProps> = {
 	components: {
+		Section: {
+			fields: {
+				title: {type: "text"},
+				content: {type: "slot"},
+			},
+			defaultProps: {
+				title: "Section Title",
+				content: [],
+			},
+			render: ({ title, content: Content }) => {
+				return (
+					<section className="mt-5 mb-8">
+						<h2 className="font-serif font-bold text-xl text-green-700">{title}</h2>
+						<hr className="border-t-2 mb-1.5" />
+						<Content />
+					</section>
+				);
+			}
+		},
 		HeadingBlock: {
 			fields: {
 				title: {
@@ -45,6 +72,20 @@ const config: Config<Components, RootProps> = {
 				return (
 					<div className="p-5 inset-ring-1 inset-ring-orange-400">
 						<Content />
+					</div>
+				);
+			},
+		},
+		TwoColumn: {
+			fields: {
+				left: {type: "slot"},
+				right: {type: "slot"},
+			},
+			render: ({ left: LeftCol, right: RightCol }) => {
+				return (
+					<div className="flex p-5 inset-ring-1 inset-ring-orange-400">
+						<LeftCol />
+						<RightCol />
 					</div>
 				);
 			},
