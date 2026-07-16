@@ -4,32 +4,58 @@ import { Config, Data, Puck, Render, Slot } from "@puckeditor/core";
 
 //Define components and field types for typescript
 type Components = {
+	Title: {
+		title: string;
+	};
+	Paragraph: {
+		body: string;
+	};
 	Section: {
 		title: string;
 		content: Slot;
 	};
-	HeadingBlock: {
-		title: string;
-	};
-	Slot: {
-		content: Slot;
-	};
-	TwoColumn: {
-		left: Slot;
-		right: Slot;
-	};
 };
 
 type RootProps = {
-	title: string;
-	description: string;
+
 };
 
 const config: Config<Components, RootProps> = {
 	components: {
+		Title: {
+			fields: {
+				title: {
+					type: "text",
+					contentEditable: true,
+				},
+			},
+			render: ({ title }) => {
+				return (
+					<h1 className="text-center font-serif font-bold text-3xl tracking-tight text-green-700">{title}</h1>
+				);
+			},
+		},
+		Paragraph: {
+			fields: {
+				body: {
+					type: "richtext",
+					contentEditable: true,
+				},
+			},
+			render: ({ body }) => {
+				return (
+					<p className="text-center font-serif text-sm text-foreground-500 text-gray-800 dark:text-gray-200">
+						{body}
+					</p>
+				);
+			},
+		},
 		Section: {
 			fields: {
-				title: {type: "text"},
+				title: {
+					type: "text",
+					contentEditable: true,
+				},
 				content: {type: "slot"},
 			},
 			defaultProps: {
@@ -46,66 +72,32 @@ const config: Config<Components, RootProps> = {
 				);
 			}
 		},
-		HeadingBlock: {
-			fields: {
-				title: {
-					//text field
-					type: "text",
-				},
-			},
-			//Default values for fields
-			defaultProps: {
-				title: "Hello World",
-			},
-			//Every component definition must provide a render function
-			render: ({ title}) => {
-				return (
-					<h1>{title}</h1>
-				);
-			},
+	},
+	//Categorize components in sidebar
+	categories: {
+		typography: {
+			components: ["Title", "Paragraph"],
+			title: "Text",
+			defaultExpanded: true,
+			visible: true,
 		},
-		Slot: {
-			fields: {
-				content: {type: "slot"},
-			},
-			render: ({ content: Content }) => {
-				return (
-					<div className="p-5 inset-ring-1 inset-ring-orange-400">
-						<Content />
-					</div>
-				);
-			},
+		organization: {
+			components: ["Section"]
 		},
-		TwoColumn: {
-			fields: {
-				left: {type: "slot"},
-				right: {type: "slot"},
-			},
-			render: ({ left: LeftCol, right: RightCol }) => {
-				return (
-					<div className="flex p-5 inset-ring-1 inset-ring-orange-400">
-						<LeftCol />
-						<RightCol />
-					</div>
-				);
-			},
+		//Default category, all other comps end up here
+		other: {
+			title: "Other"
 		},
 	},
-	//Root is the top-level component in Puck, a wrapper around other components
+	// Root is the top-level component in Puck, a wrapper around other components
 	root: {
 		fields: {
-			title: {type: "text"},
-			description: {type: "textarea"},
 		},
 		defaultProps: {
-			title: "title",
-			description: "desc",
 		},
-		render: ({ children, title, description }) => {
+		render: ({ children }) => {
 			return (
-				<div>
-					<h1>{title}</h1>
-					<p>{description}</p>
+				<div className="p-10 aspect-8.5/11 inset-ring inset-ring-blue-500">
 					{children}
 				</div>
 			);
