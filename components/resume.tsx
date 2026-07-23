@@ -2,8 +2,11 @@ import type { ReactNode } from "react";
 
 function Page({children}: {children: ReactNode}) {
   return (
-    <div className="m-20 p-10 aspect-8.5/11 inset-ring inset-ring-blue-500">
-      {children}
+    //This needs to be split for safari, bug rendering both margin and aspect ratio on same element.
+    <div className="m-20">
+      <div className="p-10 aspect-8.5/11 inset-ring inset-ring-blue-500">
+        {children}
+      </div>
     </div>
   );
 }
