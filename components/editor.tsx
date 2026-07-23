@@ -14,6 +14,13 @@ type Components = {
 		title: string;
 		content: Slot;
 	};
+	Job: {
+		jobTitle: string;
+		employer: string;
+		location: string;
+		dateStart: string;
+		dateEnd: string | null;
+	}
 };
 
 type RootProps = {
@@ -25,7 +32,7 @@ const config: Config<Components, RootProps> = {
 		Title: {
 			fields: {
 				title: {
-					type: "text",
+					type: "richtext",
 					contentEditable: true,
 				},
 			},
@@ -44,16 +51,16 @@ const config: Config<Components, RootProps> = {
 			},
 			render: ({ body }) => {
 				return (
-					<p className="text-center font-serif text-sm text-foreground-500 text-gray-800 dark:text-gray-200">
+					<span className="text-center font-serif text-sm text-foreground-500 text-gray-800 dark:text-gray-200">
 						{body}
-					</p>
+					</span>
 				);
 			},
 		},
 		Section: {
 			fields: {
 				title: {
-					type: "text",
+					type: "richtext",
 					contentEditable: true,
 				},
 				content: {type: "slot"},
@@ -69,6 +76,39 @@ const config: Config<Components, RootProps> = {
 						<hr className="border-t-2 mb-1.5" />
 						<Content />
 					</section>
+				);
+			}
+		},
+		Job: {
+			fields: {
+				jobTitle: { type: "text", contentEditable: true },
+				employer: { type: "text", contentEditable: true },
+				location: { type: "text", contentEditable: true },
+				dateStart: { type: "text", contentEditable: true },
+				dateEnd: { type: "text", contentEditable: true },
+			},
+			defaultProps: {
+				jobTitle: "Job Title",
+				employer: "Employer",
+				location: "Location",
+				dateStart: "Aug 2025",
+				dateEnd: "Sep 2026",
+			},
+			render: ({ jobTitle, employer, location, dateStart, dateEnd }) => {
+				return (
+					<div className="my-2">
+						<div className="flex flex-row justify-between">
+							<h3 className="font-serif font-bold tracking-tight">{jobTitle} | {employer} | {location}</h3>
+							<h3 className="font-serif font-bold tracking-tight">{dateStart} - {dateEnd ? dateEnd : "Present"}</h3>
+						</div>
+						<ul className="list-disc list-inside">
+							{/* {job.bullets.map(bullet =>
+								<li key={bullet.id} className="font-serif text-sm text-foreground-500 text-gray-800 dark:text-gray-200">
+									{bullet.text}
+								</li>
+							)} */}
+						</ul>
+					</div>
 				);
 			}
 		},
