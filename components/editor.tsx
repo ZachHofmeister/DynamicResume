@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { Config, Data, Puck, Render, Slot } from "@puckeditor/core";
+import { StagedRenderingController } from "next/dist/server/app-render/staged-rendering";
 
 //Define components and field types for typescript
 type Components = {
@@ -20,6 +21,7 @@ type Components = {
 		location: string;
 		dateStart: string;
 		dateEnd: string | null;
+		bullets: { info: string; }[];
 	}
 };
 
@@ -86,6 +88,13 @@ const config: Config<Components, RootProps> = {
 				location: { type: "text", contentEditable: true },
 				dateStart: { type: "text", contentEditable: true },
 				dateEnd: { type: "text", contentEditable: true },
+				bullets: {
+					type: "array",
+					arrayFields: {
+						info: { type: "text" }
+					},
+					// getItemSummary: (item) => /*item.info ||*/ "Item"
+				},
 			},
 			defaultProps: {
 				jobTitle: "Job Title",
@@ -93,8 +102,9 @@ const config: Config<Components, RootProps> = {
 				location: "Location",
 				dateStart: "Aug 2025",
 				dateEnd: "Sep 2026",
+				bullets: [{info: "example"}]
 			},
-			render: ({ jobTitle, employer, location, dateStart, dateEnd }) => {
+			render: ({ jobTitle, employer, location, dateStart, dateEnd, bullets }) => {
 				return (
 					<div className="my-2">
 						<div className="flex flex-row justify-between">
@@ -102,11 +112,11 @@ const config: Config<Components, RootProps> = {
 							<h3 className="font-serif font-bold tracking-tight">{dateStart} - {dateEnd ? dateEnd : "Present"}</h3>
 						</div>
 						<ul className="list-disc list-inside">
-							{/* {job.bullets.map(bullet =>
-								<li key={bullet.id} className="font-serif text-sm text-foreground-500 text-gray-800 dark:text-gray-200">
-									{bullet.text}
+							{bullets.map((item, i) =>
+								<li key={i} className="font-serif text-sm text-foreground-500 text-gray-800 dark:text-gray-200">
+									{item.info}
 								</li>
-							)} */}
+							)}
 						</ul>
 					</div>
 				);
